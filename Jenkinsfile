@@ -97,6 +97,10 @@ spec:
     stage('Build Image - Kaniko') {
       steps {
         container('kaniko') {
+          sh 'pwd'
+          sh 'ls -la /kaniko/.docker'
+          sh 'cat /kaniko/.docker/config.json'
+          
           sh """
           /kaniko/executor \
             --context=`pwd` \
