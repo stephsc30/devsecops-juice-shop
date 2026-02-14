@@ -205,7 +205,10 @@ spec:
           sh """
           zap-baseline.py \
           -t http://juice-shop:5000 \
-          -r zap-report.html
+          -r zap-report.html \
+          -I
+
+          cp /zap/wrk/zap-report.html $WORKSPACE/
           """
         }
       }
