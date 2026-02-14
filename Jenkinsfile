@@ -118,6 +118,8 @@ spec:
       steps {
         container('trivy') {
           sh '''
+          wget https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/html.tpl
+          
           # Scan and generate JSON report
           trivy image --severity HIGH,CRITICAL \
             --format json \
