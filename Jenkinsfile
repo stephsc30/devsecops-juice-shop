@@ -10,18 +10,26 @@ spec:
   - name: kaniko
     image: gcr.io/kaniko-project/executor:latest
     command: 
-      - /busybox/cat
+      - sleep
+    args:
+      - "9999999"  
     tty: true
     volumeMounts:
     - name: docker-config
       mountPath: /kaniko/.docker
   - name: trivy
     image: aquasec/trivy:latest
-    command: ['cat']
+    command: 
+      - sleep
+    args:
+      - "9999999"  
     tty: true
   - name: zap
     image: ghcr.io/zaproxy/zaproxy:stable
-    command: ['cat']
+    command: 
+      - sleep
+    args:
+      - "9999999"  
     tty: true
   volumes:
   - name: docker-config
