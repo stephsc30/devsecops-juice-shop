@@ -39,7 +39,7 @@ spec:
       - "9999999"  
     tty: true
   - name: kubectl
-    image: bitnami/kubectl@sha256-5ca838396ea7411ceb0c36dbaf225e7d6b0543408a58e05e8f1be431adf08b82
+    image: bitnami/kubectl:latest
     command: 
       - sleep
     args: 
