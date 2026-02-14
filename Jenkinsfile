@@ -48,16 +48,16 @@ spec:
   stages {
 
     stage('SAST - SonarQube') {
-      steps {
-        withSonarQubeEnv('sonarqube') {
-          sh """
-          SonarScanner \
-          -Dsonar.projectKey=juice-shop \
-          -Dsonar.sources=.
-          """
+    steps {
+        script {
+            def scannerHome = tool 'sonarscanner'
+            withSonarQubeEnv('sonarqube') {
+                sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=juice-shop -Dsonar.sources=."
+            }
         }
-      }
     }
+}
+
 
     stage('Quality Gate') {
       steps {
