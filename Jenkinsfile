@@ -121,7 +121,10 @@ spec:
 
   post {
     always {
-      publishHTML([
+      publishHTML(target: [
+        allowMissing: false,
+        alwaysLinkToLastBuild: true,
+        keepAll: true,
         reportDir: '.',
         reportFiles: 'zap-report.html',
         reportName: 'ZAP Report'
