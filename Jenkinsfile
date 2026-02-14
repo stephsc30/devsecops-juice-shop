@@ -75,18 +75,19 @@ spec:
     }
 
     stage('Dependency Scan') {
-  steps {
-    container('dependency-check') {
-      sh '''
-        dependency-check.sh \
-          --scan . \
-          --format XML \
-          --out .
-      '''
+      steps {
+        container('dependency-check') {
+          sh '''
+            /usr/share/dependency-check/bin/dependency-check.sh \
+              --scan . \
+              --format XML \
+              --out .
+          '''
+        }
+        dependencyCheckPublisher pattern: 'dependency-check-report.xml'
+      }
     }
-    dependencyCheckPublisher pattern: 'dependency-check-report.xml'
-  }
-}
+
 
 
 
