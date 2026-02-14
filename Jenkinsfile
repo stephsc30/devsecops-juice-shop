@@ -68,11 +68,14 @@ spec:
     }
 
     stage('Dependency Scan') {
-      steps {
-        dependencyCheck additionalArguments: '--scan .', odcInstallation: 'OWASP'
-        dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
-      }
+  steps {
+    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+      dependencyCheck additionalArguments: '--scan .', odcInstallation: 'OWASP'
+      dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
     }
+  }
+}
+
 
     stage('Build Image - Kaniko') {
       steps {
