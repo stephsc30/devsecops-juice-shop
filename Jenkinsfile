@@ -38,6 +38,16 @@ spec:
     args:
       - "9999999"  
     tty: true
+  - name: kubectl
+    image: bitnami/kubectl:latest
+    command:
+      - sleep
+    args:
+      - "infinity"
+    tty: true
+    volumeMounts:
+      - name: kubeconfig
+        mountPath: /root/.kube      
   volumes:
   - name: docker-config
     secret:
@@ -45,6 +55,9 @@ spec:
       items:
       - key: .dockerconfigjson
         path: config.json
+  - name: kubeconfig
+    secret:
+      secretName: kubeconfig-secret      
 """
     }
   }
@@ -122,7 +135,7 @@ spec:
 
           #install jq
           apk add --no-cache jq
-          
+
           wget https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/html.tpl
 
           # Scan and generate JSON report
@@ -161,11 +174,12 @@ spec:
 
     stage('Deploy') {
       steps {
-        sh """
+        container('kubectl')
+        sh '''
         sed -i "s|IMAGE_TAG|$REGISTRY/$IMAGE_NAME:$IMAGE_TAG|" deployment.yaml
         kubectl apply -f deployment.yaml
         kubectl apply -f service.yaml
-        """
+        '''
       }
     }
 
