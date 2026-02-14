@@ -117,7 +117,7 @@ spec:
     stage('Container Scan - Trivy') {
       steps {
         container('trivy') {
-          sh """
+          sh '''
           # Scan and generate JSON report
           trivy image --severity HIGH,CRITICAL \
             --format json \
@@ -147,7 +147,7 @@ spec:
             echo "Critical vulnerabilities exceed threshold (150). Failing build."
             exit 1
           fi
-          """
+          '''
         }
       }
     }
