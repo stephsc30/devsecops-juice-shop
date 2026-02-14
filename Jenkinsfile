@@ -8,12 +8,11 @@ spec:
   serviceAccountName: jenkins
   containers:
   - name: kaniko
-    image: gcr.io/kaniko-project/executor:latest
+    image: gcr.io/kaniko-project/executor:dubug
     command: 
-      - /busybox/sh
+      - sleep
     args:
-      - c
-      - cat  
+      - "infinity"
     tty: true
     volumeMounts:
     - name: docker-config
