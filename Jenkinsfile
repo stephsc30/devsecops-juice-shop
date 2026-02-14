@@ -174,8 +174,7 @@ spec:
 
     stage('Deploy') {
       steps {
-        script {
-          container('kubectl') {
+        container('kubectl') {
           sh '''
           echo "================== DEBUG KUBECONFIG =================="
           ls -la /root/.kube
@@ -189,7 +188,6 @@ spec:
           kubectl apply -f deployment.yaml
           kubectl apply -f service.yaml
           '''
-          }
         }
       }
     }
