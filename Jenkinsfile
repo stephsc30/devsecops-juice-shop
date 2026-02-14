@@ -38,6 +38,9 @@ spec:
     args:
       - "9999999"  
     tty: true
+    volumeMounts:
+      - name: workspace-volume
+        mountPath: /zap/wrk
   - name: kubectl
     image: bitnami/kubectl:latest
     command: 
@@ -59,7 +62,9 @@ spec:
         path: config.json
   - name: kubeconfig
     secret:
-      secretName: kubeconfig-secret      
+      secretName: kubeconfig-secret
+  - name: workspace-volume
+    emptyDir: {}          
 """
     }
   }
