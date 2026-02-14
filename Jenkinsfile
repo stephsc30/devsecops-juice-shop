@@ -9,7 +9,8 @@ spec:
   containers:
   - name: kaniko
     image: gcr.io/kaniko-project/executor:latest
-    command: ['cat']
+    command: 
+      - /busybox/cat
     tty: true
     volumeMounts:
     - name: docker-config
@@ -19,7 +20,7 @@ spec:
     command: ['cat']
     tty: true
   - name: zap
-    image: owasp/zap2docker-stable
+    image: ghcr.io/zaproxy/zaproxy:stable
     command: ['cat']
     tty: true
   volumes:
