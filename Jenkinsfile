@@ -76,13 +76,16 @@ spec:
 
     stage('Dependency Scan') {
       steps {
-        container('dependency-check') {
-          sh '''
-            /usr/share/dependency-check/bin/dependency-check.sh \
-              --scan . \
-              --format XML \
-              --out .
-          '''
+        withCredentials([string(credentialsId: 'nvd-api-key', variable: 'NVD_KEY')]) {
+          container('dependency-check') {
+            sh '''
+              /usr/share/dependency-check/bin/dependency-check.sh \
+                --scan . \
+                --format XML \
+                --out . \
+                --nvdApiKey $NVD_KEY
+            '''
+          }
         }
         dependencyCheckPublisher pattern: 'dependency-check-report.xml'
       }
