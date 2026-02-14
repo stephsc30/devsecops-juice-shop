@@ -42,6 +42,9 @@ spec:
   - name: docker-config
     secret:
       secretName: dockerhub-secret
+      items:
+      - key: .dockerconfigjson
+        path: config.json
 """
     }
   }
@@ -100,7 +103,7 @@ spec:
           sh 'pwd'
           sh 'ls -la /kaniko/.docker'
           sh 'cat /kaniko/.docker/config.json'
-          
+
           sh """
           /kaniko/executor \
             --context=`pwd` \
