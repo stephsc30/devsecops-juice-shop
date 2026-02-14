@@ -40,10 +40,8 @@ spec:
     tty: true
   - name: kubectl
     image: bitnami/kubectl:latest
-    command:
-      - sleep
-    args:
-      - "infinity"
+    command: ["/bin/sh", "-c"]
+    args: ["sleep 1d"] 
     tty: true
     volumeMounts:
       - name: kubeconfig
@@ -176,6 +174,7 @@ spec:
       steps {
         container('kubectl') {
         sh '''
+        export KUBECONFIG=/root/.kube/config
         sed -i "s|IMAGE_TAG|$REGISTRY/$IMAGE_NAME:$IMAGE_TAG|" deployment.yaml
         kubectl apply -f deployment.yaml
         kubectl apply -f service.yaml
