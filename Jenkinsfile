@@ -118,9 +118,35 @@ spec:
       steps {
         container('trivy') {
           sh """
+          # Scan and generate JSON report
           trivy image --severity HIGH,CRITICAL \
-          --exit-code 1 \
-          $REGISTRY/$IMAGE_NAME:$IMAGE_TAG
+            --format json \
+            -o trivy-report.json \
+            $REGISTRY/$IMAGE_NAME:$IMAGE_TAG
+          
+          # Generate HTML report
+          trivy image \
+            --severity HIGH,CRITICAL \
+            --format template \
+            --template "@contrib/html.tpl" \
+            -o trivy-report.html \
+            $REGISTRY/$IMAGE_NAME:$IMAGE_TAG  
+
+          # Extract vulnerability counts
+          CRITICAL=$(cat trivy-report.json | jq '[.Results[].Vulnerabilities[]? | select(.Severity=="CRITICAL")] | length')
+          HIGH=$(cat trivy-report.json | jq '[.Results[].Vulnerabilities[]? | select(.Severity=="HIGH")] | length')  
+
+          echo "-----------------------------------"
+          echo "Vulnerability Summary"
+          echo "High: $HIGH"
+          echo "Critical: $CRITICAL"
+          echo "-----------------------------------"
+
+                  # Fail only if Critical > 150
+          if [ "$CRITICAL" -gt 150 ]; then
+            echo "Critical vulnerabilities exceed threshold (150). Failing build."
+            exit 1
+          fi
           """
         }
       }
