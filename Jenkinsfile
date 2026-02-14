@@ -45,6 +45,8 @@ spec:
     args: 
       - "infinity" 
     tty: true
+    securityContext:
+      runAsUser: 0
     volumeMounts:
       - name: kubeconfig
         mountPath: /root/.kube      
