@@ -31,7 +31,7 @@ spec:
   }
 
   environment {
-    REGISTRY = "docker.io/YOUR_DOCKERHUB_USERNAME"
+    REGISTRY = "docker.io/stephsc30"
     IMAGE_NAME = "juice-shop"
     IMAGE_TAG = "${BUILD_NUMBER}"
   }
@@ -40,7 +40,7 @@ spec:
 
     stage('Checkout') {
       steps {
-        git 'https://github.com/YOUR_USERNAME/devsecops-juice-shop.git'
+        git 'https://github.com/stephsc30/devsecops-juice-shop.git'
       }
     }
 
