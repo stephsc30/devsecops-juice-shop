@@ -118,6 +118,11 @@ spec:
       steps {
         container('trivy') {
           sh '''
+          set -e
+
+          #install jq
+          apk add --no-cache jq
+          
           wget https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/html.tpl
 
           # Scan and generate JSON report
