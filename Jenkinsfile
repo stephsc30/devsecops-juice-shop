@@ -17,6 +17,13 @@ spec:
     volumeMounts:
     - name: docker-config
       mountPath: /kaniko/.docker
+  - name: dependency-check
+    image: owasp/dependency-check:latest
+    command: 
+      - sleep
+    args:
+      - "infinity"
+    tty: true        
   - name: trivy
     image: aquasec/trivy:latest
     command: 
@@ -69,12 +76,18 @@ spec:
 
     stage('Dependency Scan') {
   steps {
-    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-      dependencyCheck additionalArguments: '--scan .', odcInstallation: 'OWASP'
-      dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+    container('dependency-check') {
+      sh '''
+        dependency-check.sh \
+          --scan . \
+          --format XML \
+          --out .
+      '''
     }
+    dependencyCheckPublisher pattern: 'dependency-check-report.xml'
   }
 }
+
 
 
     stage('Build Image - Kaniko') {
