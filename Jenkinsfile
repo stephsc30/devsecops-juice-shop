@@ -51,7 +51,7 @@ spec:
       steps {
         withSonarQubeEnv('sonarqube') {
           sh """
-          sonar-scanner \
+          SonarScanner \
           -Dsonar.projectKey=juice-shop \
           -Dsonar.sources=.
           """
