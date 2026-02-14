@@ -119,7 +119,7 @@ spec:
         container('trivy') {
           sh '''
           wget https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/html.tpl
-          
+
           # Scan and generate JSON report
           trivy image --severity HIGH,CRITICAL \
             --format json \
@@ -130,7 +130,7 @@ spec:
           trivy image \
             --severity HIGH,CRITICAL \
             --format template \
-            --template "@contrib/html.tpl" \
+            --template "@html.tpl" \
             -o trivy-report.html \
             $REGISTRY/$IMAGE_NAME:$IMAGE_TAG  
 
