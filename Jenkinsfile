@@ -47,12 +47,6 @@ spec:
 
   stages {
 
-    stage('Checkout') {
-      steps {
-        git 'https://github.com/stephsc30/devsecops-juice-shop.git'
-      }
-    }
-
     stage('SAST - SonarQube') {
       steps {
         withSonarQubeEnv('sonarqube') {
