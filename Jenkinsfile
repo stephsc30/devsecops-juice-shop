@@ -174,12 +174,13 @@ spec:
 
     stage('Deploy') {
       steps {
-        container('kubectl')
+        container('kubectl') {
         sh '''
         sed -i "s|IMAGE_TAG|$REGISTRY/$IMAGE_NAME:$IMAGE_TAG|" deployment.yaml
         kubectl apply -f deployment.yaml
         kubectl apply -f service.yaml
         '''
+        }
       }
     }
 
